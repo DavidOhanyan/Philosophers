@@ -6,12 +6,21 @@
 /*   By: dohanyan <dohanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 20:30:26 by dohanyan          #+#    #+#             */
-/*   Updated: 2023/05/17 21:08:19 by dohanyan         ###   ########.fr       */
+/*   Updated: 2023/05/17 21:59:18 by dohanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
+int	is_dead(t_phlio *philo)
+{
+	int	rv;
+
+	sem_wait(philo->sems->die);
+	rv = *(philo->is_dead);
+	sem_post(philo->sems->die);
+	return (rv);
+}
 
 void *call_threads(void *p)
 {
@@ -22,11 +31,11 @@ void *call_threads(void *p)
 	return (NULL);
 }
 
-void call_forks(t_phlio *philo)
+void call_forks(t_main *main, int i)
 {
-	int i;
-
-	i = 0;
+	t_phlio* philo;
+	
+	philo = &main->philos[i];
 	pthread_create(&(philo->thread), NULL, &call_threads, (void *)&philo);
 	if (philo->id % 2 != 0)
 		my_usleap(philo->date_of_eat);
@@ -52,6 +61,8 @@ void call_forks(t_phlio *philo)
 		my_usleap(philo->date_of_eat);
 		sem_post(philo->sems->forks);//post forks
 		sem_post(philo->sems->forks);//post forks	
+		if()
+		
 		sem_wait(philo->sems->print);//wait print
 		printf("%d [%lu] is sleeping", philo->id,  my_get_time());	
 		sem_post(philo->sems->print);//post print
@@ -77,7 +88,7 @@ void create_forks(t_main *main)
 			exit(EXIT_FAILURE);
 		}
 		if(main->philos[i].pid == 0)
-			call_forks(&(main->philos[i]));		
+			call_forks(main,i);		
 	}
 	// retminate
 }
