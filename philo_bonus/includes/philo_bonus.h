@@ -6,7 +6,7 @@
 /*   By: dohanyan <dohanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 20:32:37 by dohanyan          #+#    #+#             */
-/*   Updated: 2023/05/18 17:27:11 by dohanyan         ###   ########.fr       */
+/*   Updated: 2023/05/18 21:30:17 by dohanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,13 @@ typedef struct s_main
 	int				is_dead;
 	t_phlio			*philos;
 }	t_main;
+
+typedef struct s_merg
+{
+	t_main *main;
+	t_phlio *philo;	
+}	t_merg;
+
 
 int	check_neg_pos(char ch);
 int	chech_args(char **argv);

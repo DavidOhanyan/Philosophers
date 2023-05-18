@@ -6,7 +6,7 @@
 /*   By: dohanyan <dohanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 20:30:26 by dohanyan          #+#    #+#             */
-/*   Updated: 2023/05/18 19:48:08 by dohanyan         ###   ########.fr       */
+/*   Updated: 2023/05/18 21:37:08 by dohanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,16 @@ int	is_dead(t_phlio *philo)
 
 void *call_threads(void *p)
 {
-	t_phlio *philo;
-
-	philo = (t_phlio *)p;
+	t_merg *merg;
+	t_main	*main;
+	t_phlio	*philo;
+	
+	merg = (t_merg *)p;
+	main = merg->main;
+	philo = merg->philo;
+	
 	sem_wait(philo->sems->last_eat);
-	// if (my_get_time() - philo->last_eat > philo)
+	if (my_get_time() - philo->last_eat > philo)
 	{
 		
 	}
@@ -51,12 +56,13 @@ void *call_threads(void *p)
 	return (NULL);
 }
 
-void call_forks(t_main *main, int i)
+void call_forks(t_main *m, int i)
 {
 	t_phlio* philo;
-	
-	philo = &main->philos[i];
-	pthread_create(&(philo->thread), NULL, &call_threads, (void *)&philo);
+	t_merg	merg;
+	merg.main = m;
+	merg.philo = &(m->philos[i]);
+	pthread_create(&(philo->thread), NULL, &call_threads, (void *)&merg);
 	if (philo->id % 2 != 0)
 		my_usleap(philo->date_of_eat);
 	while (1)
@@ -93,11 +99,11 @@ void call_forks(t_main *main, int i)
 		sem_post(philo->sems->forks);//post forks	
 		
 		sem_wait(philo->sems->each_eat);//wait each_eat
-		if(main->max_eat != -1 && philo->count_each_eat >= main->max_eat)
-		{
-			sem_post(philo->sems->each_eat);
-			break;	
-		}
+		// if(main->max_eat != -1 && philo->count_each_eat >= main->max_eat)
+		// {
+		// 	sem_post(philo->sems->each_eat);
+		// 	break;	
+		// }
 		sem_post(philo->sems->each_eat);
 		
 		sem_wait(philo->sems->print);//wait print

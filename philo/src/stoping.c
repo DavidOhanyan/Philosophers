@@ -6,7 +6,7 @@
 /*   By: dohanyan <dohanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 20:51:50 by dohanyan          #+#    #+#             */
-/*   Updated: 2023/05/10 21:57:30 by dohanyan         ###   ########.fr       */
+/*   Updated: 2023/05/18 20:37:44 by dohanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	die_check(t_main *philo)
 			pthread_mutex_unlock(&(philo->s_philo[j].last_eat_mutex));
 			return (1);
 		}
-		pthread_mutex_unlock(&(philo->s_philo[j].last_eat_mutex));
 	}
 	return (0);
 }
