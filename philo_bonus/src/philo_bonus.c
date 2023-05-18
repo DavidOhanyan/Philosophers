@@ -6,11 +6,25 @@
 /*   By: dohanyan <dohanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 20:30:26 by dohanyan          #+#    #+#             */
-/*   Updated: 2023/05/17 21:59:18 by dohanyan         ###   ########.fr       */
+/*   Updated: 2023/05/18 19:48:08 by dohanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+void unlink_close(t_phlio *philo)
+{
+	sem_close(philo->sems->die);
+	sem_close(philo->sems->each_eat);
+	sem_close(philo->sems->forks);
+	sem_close(philo->sems->last_eat);
+	sem_close(philo->sems->print);
+	sem_unlink(SEM_PRINT);
+	sem_unlink(SEM_DIE);
+	sem_unlink(SEM_EACH_EAT);
+	sem_unlink(SEM_FORKS);
+	sem_unlink(SEM_LAST_EAT);
+}
 
 int	is_dead(t_phlio *philo)
 {
@@ -27,7 +41,13 @@ void *call_threads(void *p)
 	t_phlio *philo;
 
 	philo = (t_phlio *)p;
-
+	sem_wait(philo->sems->last_eat);
+	// if (my_get_time() - philo->last_eat > philo)
+	{
+		
+	}
+	post_wait(philo->sems->last_eat);
+	
 	return (NULL);
 }
 
@@ -42,32 +62,53 @@ void call_forks(t_main *main, int i)
 	while (1)
 	{
 		sem_wait(philo->sems->forks);//left fork
+		
 		sem_wait(philo->sems->print);//wait print
+		if(!is_dead(philo))
 		printf("%d [%lu] has taken a left fork", philo->id,  my_get_time());
 		sem_post(philo->sems->print);//post print
+		
 		sem_wait(philo->sems->forks);//right fork
+		
 		sem_wait(philo->sems->print);//wait print
+		if(!is_dead(philo))
 		printf("%d [%lu] has taken a right fork", philo->id,  my_get_time());
 		sem_post(philo->sems->print);//post print
+		
 		sem_wait(philo->sems->print);//wait print
 		printf("%d [%lu] is eating", philo->id,  my_get_time());
 		sem_post(philo->sems->print);//post print
-		sem_wait(philo->sems->each_eat);//wait each_eat
-		philo->count_each_eat++;
-		sem_post(philo->sems->each_eat);//post each_eat	
+		
 		sem_wait(philo->sems->last_eat);//wait last_eat
 		philo->last_eat = my_get_time();
 		sem_wait(philo->sems->last_eat);//post last_eat
+
 		my_usleap(philo->date_of_eat);
+		
+		sem_wait(philo->sems->each_eat);//wait each_eat
+		philo->count_each_eat++;
+		sem_post(philo->sems->each_eat);//post each_eat
+			
 		sem_post(philo->sems->forks);//post forks
 		sem_post(philo->sems->forks);//post forks	
-		if()
+		
+		sem_wait(philo->sems->each_eat);//wait each_eat
+		if(main->max_eat != -1 && philo->count_each_eat >= main->max_eat)
+		{
+			sem_post(philo->sems->each_eat);
+			break;	
+		}
+		sem_post(philo->sems->each_eat);
 		
 		sem_wait(philo->sems->print);//wait print
+		if(!is_dead(philo))
 		printf("%d [%lu] is sleeping", philo->id,  my_get_time());	
 		sem_post(philo->sems->print);//post print
+		
 		my_usleap(philo->date_of_sleep);
+		
 		sem_wait(philo->sems->print);//wait print
+		if(!is_dead(philo))
 		printf("%d [%lu] is thinking", philo->id,  my_get_time());	
 		sem_post(philo->sems->print);//post print
 	}

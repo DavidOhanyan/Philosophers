@@ -6,7 +6,7 @@
 /*   By: dohanyan <dohanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 20:32:37 by dohanyan          #+#    #+#             */
-/*   Updated: 2023/05/17 14:56:07 by dohanyan         ###   ########.fr       */
+/*   Updated: 2023/05/18 17:27:11 by dohanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_philo
 	int				count_each_eat;
 	pthread_t		thread;
 	t_sem			*sems;
+	
 }		t_phlio;
 
 typedef struct s_main

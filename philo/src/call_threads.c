@@ -6,7 +6,7 @@
 /*   By: dohanyan <dohanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 22:06:43 by dohanyan          #+#    #+#             */
-/*   Updated: 2023/05/17 15:04:26 by dohanyan         ###   ########.fr       */
+/*   Updated: 2023/05/18 19:39:42 by dohanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ void	*call_threads(t_info *philo)
 		pthread_mutex_lock(philo->right);
 		my_print(philo, "has taken a right fork", philo->id + 1, my_get_time());
 		my_print(philo, "is eating", philo->id + 1, my_get_time());
-		pthread_mutex_lock(&philo->each_eat);
-		philo->count_each_eat++;
-		pthread_mutex_unlock(&philo->each_eat);
 		pthread_mutex_lock(&philo->last_eat_mutex);
 		philo->last_eat = my_get_time();
 		pthread_mutex_unlock(&philo->last_eat_mutex);
 		my_usleap(philo->date_of_eat);
+		pthread_mutex_lock(&philo->each_eat);//
+		philo->count_each_eat++;//
+		pthread_mutex_unlock(&philo->each_eat);//
 		pthread_mutex_unlock(philo->left);
 		pthread_mutex_unlock(philo->right);
 		my_print(philo, "is sleeping", philo->id + 1, my_get_time());

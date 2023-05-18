@@ -6,7 +6,7 @@
 /*   By: dohanyan <dohanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:14:43 by dohanyan          #+#    #+#             */
-/*   Updated: 2023/05/17 14:47:45 by dohanyan         ###   ########.fr       */
+/*   Updated: 2023/05/18 15:42:39 by dohanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void init_main(t_main *main,char **argv)
 	main->time_to_die = ft_atoi(argv[2]);
 	if(argv[5])
 		main->max_eat = ft_atoi(argv[5]);
+	else
+		main->max_eat = -1;
 	main->philos = (t_phlio *)malloc(sizeof(t_phlio) * main->count_philo);
 }
 
