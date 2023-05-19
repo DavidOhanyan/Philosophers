@@ -6,7 +6,7 @@
 /*   By: dohanyan <dohanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:13:09 by dohanyan          #+#    #+#             */
-/*   Updated: 2023/05/17 14:03:42 by dohanyan         ###   ########.fr       */
+/*   Updated: 2023/05/19 21:24:45 by dohanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,8 @@ int	check_siz_num(char **argv)
 	return (0);
 }
 
-int	check_init(t_main *main, int argc, char **argv)
+int	check_init(int argc, char **argv)
 {
-	(void)main;
 	if (argc < 5 || argc > 6)
 	{
 		write (2, "Error\n", 6);
@@ -75,9 +74,5 @@ int	check_init(t_main *main, int argc, char **argv)
 		write (2, "Error\n", 6);
 		return (1);
 	}
-	// if (init_t_main(main, argv) == 1)
-	// 	return (1);
-	// init_t_info(main, argv);
-	// init_mutex(main);
 	return (0);
 }

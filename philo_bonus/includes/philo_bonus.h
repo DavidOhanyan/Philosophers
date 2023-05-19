@@ -6,7 +6,7 @@
 /*   By: dohanyan <dohanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 20:32:37 by dohanyan          #+#    #+#             */
-/*   Updated: 2023/05/18 21:30:17 by dohanyan         ###   ########.fr       */
+/*   Updated: 2023/05/19 21:24:56 by dohanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_merg
 int	check_neg_pos(char ch);
 int	chech_args(char **argv);
 int	check_siz_num(char **argv);
-int	check_init(t_main *main, int argc, char **argv);
+int	check_init(int argc, char **argv);
 unsigned	long	my_get_time(void);
 void	my_usleap(unsigned long t1);
 long	ft_atoi(const char *str);

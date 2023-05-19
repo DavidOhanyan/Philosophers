@@ -6,7 +6,7 @@
 /*   By: dohanyan <dohanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:14:43 by dohanyan          #+#    #+#             */
-/*   Updated: 2023/05/18 15:42:39 by dohanyan         ###   ########.fr       */
+/*   Updated: 2023/05/19 21:26:21 by dohanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,4 @@ void init_philo(t_main *main,char **argv)
 		main->philos[i].is_dead = &(main->is_dead);
 		main->philos[i].sems = &sem;
 	}
-	i = -1;
 }

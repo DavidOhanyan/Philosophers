@@ -6,7 +6,7 @@
 /*   By: dohanyan <dohanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 20:30:26 by dohanyan          #+#    #+#             */
-/*   Updated: 2023/05/19 17:04:30 by dohanyan         ###   ########.fr       */
+/*   Updated: 2023/05/19 21:44:03 by dohanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,18 @@ void *call_threads(void *p)
 	philo = merg->philo;
 	while (1)
 	{
-		// printf("----my_get_timr = [%lu],last_eat=[%lu],iraric_hanac=[%lu]\n", my_get_time(), philo->last_eat,my_get_time()-philo->last_eat);
+		//  printf("----my_get_timr = [%lu],last_eat=[%lu],iraric_hanac=[%lu]\n", my_get_time(), philo->last_eat,my_get_time()-philo->last_eat);
+		printf("%lu\n",philo->last_eat);
 		sem_wait(philo->sems->last_eat);
 		if (my_get_time() - philo->last_eat > main->time_to_die)
 		{
-			printf("#######################################die######\n");
+			// printf("#######################################die######\n");
 			sem_wait(philo->sems->die);
 			main->is_dead = 1;
 			sem_post(philo->sems->die);
 			sem_wait(philo->sems->print);
 			printf("%d [%lu] is die\n", philo->id, my_get_time() - philo->last_eat);
-			sem_post(philo->sems->print);
+			sem_post(philo->sems->print); 
 			sem_post(philo->sems->last_eat);
 			exit(0);
 		}
@@ -83,7 +84,7 @@ void call_forks(t_main *m, int i)
 	philo = &m->philos[i];
 	merg.philo = philo;
 	pthread_create(&(philo->thread), NULL, &call_threads, (void *)&merg);
-	if (philo->id % 2 != 0)
+	if (philo->id % 2 == 0)
 		my_usleap(philo->date_of_eat);
 	while (1)
 	{
@@ -102,12 +103,13 @@ void call_forks(t_main *m, int i)
 		sem_post(philo->sems->print);//post print
 		
 		sem_wait(philo->sems->print);//wait print
+		if(!is_dead(philo))
 		printf("%d [%lu] is eating\n", philo->id,  my_get_time());
 		sem_post(philo->sems->print);//post print
 		
 		sem_wait(philo->sems->last_eat);//wait last_eat
 		philo->last_eat = my_get_time();
-		sem_wait(philo->sems->last_eat);//post last_eat
+		sem_post(philo->sems->last_eat);//post last_eat
 
 		my_usleap(philo->date_of_eat);
 		
@@ -186,8 +188,7 @@ int main(int argc, char **argv)
 {
 	t_main main;
 	// int i;
-	
-	if(check_init(&main,argc,argv))
+	if(check_init(argc,argv))
 		return (0);
 	init_main(&main,argv);
 	init_philo(&main,argv);
