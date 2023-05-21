@@ -6,7 +6,7 @@
 /*   By: dohanyan <dohanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 22:06:43 by dohanyan          #+#    #+#             */
-/*   Updated: 2023/05/19 17:32:59 by dohanyan         ###   ########.fr       */
+/*   Updated: 2023/05/21 17:19:18 by dohanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	*call_threads(t_info *philo)
 		my_print(philo, "is sleeping", philo->id + 1, my_get_time());
 		my_usleap(philo->date_of_sleep);
 		my_print(philo, "is thinking", philo->id + 1, my_get_time());
+		
 	}
 	return (NULL);
 }
