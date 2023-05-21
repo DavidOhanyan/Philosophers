@@ -6,11 +6,18 @@
 /*   By: dohanyan <dohanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 13:38:28 by dohanyan          #+#    #+#             */
-/*   Updated: 2023/05/17 13:40:18 by dohanyan         ###   ########.fr       */
+/*   Updated: 2023/05/21 22:03:57 by dohanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+void	ft_print(t_phlio *philo, char *str, int id, unsigned long time)
+{
+	sem_wait(philo->print);
+	printf("%d [%lu] %s\n", id + 1, time, str);
+	sem_post(philo->print);
+}
 
 int	ft_strlen(const char	*s)
 {
